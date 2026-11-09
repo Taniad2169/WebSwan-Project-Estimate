@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+    <meta name="robots" content="noindex, follow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebSwan Project Estimate</title>
+<meta name="description" content="Estimate the cost of your WebSwan website, phone app, compliance and advertising package.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  :root { --blue:#1182f0; --soft:#6ca1d4; --brand:#339cde; --aqua:#93e5fa; --ink:#0a1e2f; --muted:#4a6378; --bg:#eef5fc; --card:#fff; --line:#d6e5f3; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  [hidden] { display:none !important; }
+  body { font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; }
+  header { background:var(--blue); color:#fffafa; border-bottom:4px solid var(--soft); padding:22px 16px; text-align:center; }
+  header h1 { font-size:1.6rem; } header p { opacity:.95; font-size:.95rem; }
+  .wrap { max-width:1060px; margin:0 auto; padding:18px 16px 40px; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:18px; align-items:start; }
+  .sec { background:var(--card); border:2px solid var(--line); border-radius:16px; padding:16px 18px; margin-bottom:14px; }
+  .sec h2 { font-size:1.05rem; color:#0d47a1; margin-bottom:2px; } .sec .by { font-size:.78rem; color:var(--muted); margin-bottom:10px; display:block; }
+  .opt { display:flex; gap:10px; align-items:flex-start; padding:9px 10px; border:1.5px solid var(--line); border-radius:10px; margin:6px 0; cursor:pointer; }
+  .opt:hover { border-color:var(--brand); } .opt input { margin-top:4px; accent-color:var(--blue); }
+  .opt .t { flex:1; font-size:.92rem; } .opt .p { font-weight:800; color:var(--blue); white-space:nowrap; font-size:.9rem; }
+  .opt.dim { opacity:.45; }
+  .note { font-size:.8rem; color:#1565c0; margin:6px 2px; }
+  .row2 { display:flex; gap:12px; flex-wrap:wrap; margin-top:6px; } .row2 label { font-size:.9rem; } select { padding:6px 8px; border:1.5px solid var(--line); border-radius:8px; font:inherit; }
+  .disc { background:#fff8e1; border:2px solid #f2b705; border-radius:12px; padding:10px 12px; font-size:.86rem; }
+  .disc b { color:#8a5a00; }
+  aside { position:sticky; top:14px; }
+  .tot { background:linear-gradient(160deg,#0b2f57,var(--blue)); color:#fff; border-radius:18px; padding:18px; }
+  .tot h2 { font-size:1.1rem; margin-bottom:10px; }
+  .line { display:flex; justify-content:space-between; font-size:.95rem; margin:6px 0; }
+  .big { font-size:1.6rem; font-weight:900; }
+  .items { background:rgba(255,255,255,.1); border-radius:10px; padding:8px 10px; margin:10px 0; font-size:.8rem; max-height:220px; overflow:auto; }
+  .items li { margin-left:16px; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; border:0; border-radius:999px; padding:12px; font:inherit; font-weight:800; cursor:pointer; margin-top:8px; text-decoration:none; }
+  .b1 { background:var(--aqua); color:var(--ink); } .b2 { background:#fff; color:var(--ink); } .b3 { background:transparent; color:#fff; border:2px solid rgba(255,255,255,.6); }
+  .btn:focus-visible, .opt:focus-within { outline:3px solid #f2b705; outline-offset:2px; }
+  .fine { font-size:.75rem; opacity:.85; margin-top:10px; }
+  #toast { position:fixed; left:50%; bottom:20px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 18px; border-radius:999px; display:none; font-weight:700; z-index:9; }
+  footer { text-align:center; color:var(--muted); font-size:.8rem; padding:0 16px 30px; }
+  footer a { color:#0d47a1; }
+
+  /* Orange promotion banner (only shows when Tania has a promotion ON) */
+  #promoBanner { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; border:0; cursor:pointer; color:#fff; font:800 1.02rem/1.3 inherit; padding:12px 16px; text-align:center;
+    background:linear-gradient(90deg,#ff6a00,#ff9a1f,#ffb347,#ff6a00); background-size:300% 100%; animation:promoShift 4s linear infinite; box-shadow:0 6px 18px rgba(255,106,0,.35); }
+  #promoBanner[hidden] { display:none; }
+  #promoBanner .gift { display:inline-block; animation:promoBounce 1.2s ease-in-out infinite; font-size:1.3rem; }
+  #promoBanner .go { background:#fff; color:#d35400; border-radius:999px; padding:4px 12px; font-size:.85rem; white-space:nowrap; }
+  #promoBanner:focus-visible { outline:3px solid #0a1e2f; outline-offset:-3px; }
+  @keyframes promoShift { 0% { background-position:0% 50%; } 100% { background-position:300% 50%; } }
+  @keyframes promoBounce { 0%,100% { transform:translateY(0) rotate(0); } 50% { transform:translateY(-4px) rotate(-8deg); } }
+  @media (prefers-reduced-motion: reduce) { #promoBanner, #promoBanner .gift { animation:none; } }
+  .sec.promo { border-color:#ff9a1f; background:linear-gradient(135deg,#fff7ec,#fff); }
+  .sec.promo h2 { color:#d35400; }
+  .sec.promo .opt { border-color:#ffc58a; } .sec.promo .opt .p { color:#d35400; }
+  .sec.flash { animation:flash 1.4s ease 2; }
+  @keyframes flash { 50% { box-shadow:0 0 0 6px rgba(255,154,31,.45); } }
+  /* Tania's lock (7 clicks + code) */
+  .lockbtn { position:fixed; right:20px; bottom:24px; z-index:50; width:52px; height:52px; border-radius:50%; border:0; background:#333; color:#fff; font-size:1.15rem; opacity:.6; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .lockbtn:hover, .lockbtn:focus-visible { opacity:1; }
+  /* Back office */
+  #adm { position:fixed; inset:0; z-index:60; background:linear-gradient(135deg,#58a3ed,#07b584); overflow:auto; padding:20px; }
+  #adm[hidden] { display:none; }
+  .adm-card { max-width:960px; margin:0 auto; background:#fff; border-radius:26px; padding:24px; }
+  .adm-top { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #07b584; padding-bottom:12px; margin-bottom:16px; }
+  .adm-top h2 { font-size:1.6rem; }
+  .adm-x { width:46px; height:46px; border-radius:50%; border:0; background:#dc3545; color:#fff; font-size:1.2rem; cursor:pointer; }
+  .tabs { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+  .tabs button { border:0; border-radius:12px; padding:11px 20px; font:700 1rem inherit; background:#eee; cursor:pointer; }
+  .tabs button[aria-selected=true] { background:linear-gradient(90deg,#3a9bd9,#07b584); color:#fff; }
+  .box { border:2px solid gold; border-radius:18px; padding:16px; margin-bottom:16px; }
+  .box h3 { margin-bottom:4px; } .box .sub { font-size:.85rem; color:#777; margin-bottom:12px; }
+  .prow { display:grid; grid-template-columns:auto 2fr 1fr 1fr 2fr auto; gap:8px; align-items:center; background:#f8f9fa; border:1px solid #e3e3e3; border-radius:12px; padding:10px; margin-bottom:8px; }
+  .prow input[type=text], .prow input[type=number], .box input.inp { width:100%; padding:9px 10px; border:1.5px solid #ccc; border-radius:9px; font:inherit; }
+  .prow .del { border:0; background:#fde2e4; color:#b00020; border-radius:9px; padding:8px 10px; cursor:pointer; font-weight:700; }
+  .sw { position:relative; width:52px; height:28px; flex:none; } .sw input { opacity:0; width:0; height:0; }
+  .sw span { position:absolute; inset:0; background:#ccc; border-radius:999px; cursor:pointer; transition:.2s; }
+  .sw span::before { content:""; position:absolute; width:22px; height:22px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s; }
+  .sw input:checked + span { background:#ff7a00; } .sw input:checked + span::before { transform:translateX(24px); }
+  .sw input:focus-visible + span { outline:3px solid #0a1e2f; outline-offset:2px; }
+  .abtn { border:0; border-radius:999px; padding:10px 18px; font:700 .95rem inherit; cursor:pointer; background:linear-gradient(45deg,gold,#ffd700); }
+  .abtn.red { background:linear-gradient(45deg,#dc3545,#c82333); color:#fff; } .abtn.blue { background:linear-gradient(90deg,#1182f0,#07b584); color:#fff; }
+  .abtn:disabled { opacity:.5; cursor:not-allowed; }
+  .arow { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px; }
+  .timerbox { background:#f0f0f0; border-radius:16px; padding:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:12px; }
+  .tdisp { font:700 1.8rem monospace; color:#b8860b; }
+  .amsg { font-weight:700; margin-top:10px; }
+  .phead { display:grid; grid-template-columns:auto 2fr 1fr 1fr 2fr auto; gap:8px; font-size:.75rem; color:#777; font-weight:700; padding:0 10px 4px; }
+  @media (max-width:760px) { .prow, .phead { grid-template-columns:auto 1fr 1fr; } .prow .pn, .prow .pnote { grid-column:1/-1; } .phead { display:none; } }
+  /* Referral program button: text glides across horizontally (pauses on hover/focus) */
+  .refbtn { display:block; position:relative; overflow:hidden; white-space:nowrap; text-decoration:none; color:#fff; border-radius:14px; padding:13px 0; margin:14px 0; font-weight:800; font-size:1rem;
+    background:linear-gradient(90deg,#0b6b49,#11875d,#2baec2); box-shadow:0 8px 20px rgba(17,135,93,.3); }
+  .refbtn { max-width:100%; } .refbtn .track { display:inline-block; animation:refScroll 22s linear infinite; } .refbtn .track span { padding-right:60px; }
+  .refbtn:hover .track, .refbtn:focus-visible .track { animation-play-state:paused; }
+  .refbtn:focus-visible { outline:3px solid #f2b705; outline-offset:2px; }
+  .refbtn .track b { background:#fff; color:#0b6b49; border-radius:999px; padding:3px 12px; margin:0 10px; }
+  @keyframes refScroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .refbtn { white-space:normal; padding:13px 16px; text-align:center; } .refbtn .track { animation:none; } .refbtn .track span + span { display:none; } }
+  @media (max-width:820px) { .wrap { grid-template-columns:minmax(0,1fr); } aside { position:static; } }
+</style>
+</head>
+<body>
+<header>
+  <h1><i class="fa-solid fa-calculator"></i> Estimate Your WebSwan Package</h1>
+  <p>Pick what you need. Your setup, monthly and yearly totals update as you go.</p>
+</header>
+<button type="button" id="promoBanner" hidden><span class="gift" aria-hidden="true">🎁</span><span id="pbText">Special promotion! Tap to view it</span><span class="go">View promotion →</span></button>
+<div class="wrap">
+  <main id="form">
+    <a class="refbtn" href="https://taniad2169.github.io/The-WebSwan-Referral-Form/" target="_blank" rel="noopener" aria-label="Click here to earn on our referral program: get 10% for each referral on any web design, e-card, landing page or phone application, paid one time when your referral pays for the project"><span class="track" aria-hidden="true"><span><b>💰 Click here to earn on our referral program</b> Get 10% for each referral on any web design, e-card, landing page or phone application, paid one time when your referral's project is paid. 🦢</span><span><b>💰 Click here to earn on our referral program</b> Get 10% for each referral on any web design, e-card, landing page or phone application, paid one time when your referral's project is paid. 🦢</span></span></a>
+    <section class="sec promo" id="promoSec" hidden aria-labelledby="promoH">
+      <h2 id="promoH">🔥 Current promotions</h2><span class="by">Limited-time offers from The WebSwan family. Tick one to add it to your estimate.</span>
+      <div id="promoList"></div>
+    </section>
+    <section class="sec">
+      <h2>🌐 Website</h2><span class="by">The WebSwan · thewebswan.com</span>
+      <label class="opt"><input type="radio" name="web" value="none" checked><span class="t">No website</span></label>
+      <label class="opt" style="border-color:#1182f0;background:#f0f7ff"><input type="radio" name="web" value="managed"><span class="t"><b>⭐ Managed Website Program</b><br><small>Custom website by a real developer, ADA + cookie banners included (special), hosting, security, backups, monthly report and up to 60 minutes of edits a month. 12-month agreement; after 12 months it drops to $299/mo.</small></span><span class="p">$899 + $499/mo</span></label>
+      <div id="mgAdd" class="row2" hidden>
+        <label><input type="checkbox" id="mAI"> 🤖 AI-powered (AI chat assistant on your site) <small>+$300</small></label>
+        <label><input type="checkbox" id="mOpt"> 🔎 Optimization (schema, AEO/GEO, topical SEO, SEO) <small>+$299</small></label>
+      </div>
+      <label class="opt"><input type="radio" name="web" value="startup"><span class="t">Standard Custom Web Design</span><span class="p">$1,997 + $109/mo</span></label>
+      <label class="opt"><input type="radio" name="web" value="premium"><span class="t">Premium Package</span><span class="p">$3,998 + $109/mo</span></label>
+      <label class="opt"><input type="radio" name="web" value="landing"><span class="t">Landing Page</span><span class="p">$799 + $109/mo</span></label>
+      <label class="opt"><input type="radio" name="web" value="ecommerce"><span class="t">E-Commerce Website (first 10 items)</span><span class="p">$1,399 + $109/mo</span></label>
+      <div class="row2">
+        <label>Extra e-commerce items: <select id="items"><option>0</option><option>5</option><option>10</option><option>20</option><option>30</option><option>50</option></select> <small>($75 each)</small></label>
+        <label>Additional links: <select id="links"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select> <small>($300 each)</small></label>
+        <label>SEO pages: <select id="seo"><option>0</option><option>1</option><option>2</option><option>3</option><option>5</option><option>10</option></select> <small>($350 each)</small></label>
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>📱 Small Business Phone Application (SBPA)</h2><span class="by">The WebSwan</span>
+      <label class="opt"><input type="radio" name="app" value="none" checked><span class="t">No phone app</span></label>
+      <label class="opt"><input type="radio" name="app" value="basic"><span class="t">Standard Phone App</span><span class="p">$899 + $69/mo</span></label>
+      <label class="opt"><input type="radio" name="app" value="plus"><span class="t">Standard Phone App Plus</span><span class="p">$1,299 + $89/mo</span></label>
+    </section>
+
+    <section class="sec">
+      <h2>⚖️ Website Compliance</h2><span class="by">WebSwan Digital Solutions · webswandigitalsolutions.com</span>
+      <label class="opt"><input type="radio" name="audit" value="none" checked><span class="t">No audit</span></label>
+      <label class="opt"><input type="radio" name="audit" value="audit"><span class="t">Website Compliance Audit: ADA, cookies, privacy, HIPAA forms, bar rules</span><span class="p">$399</span></label>
+      <label class="opt"><input type="radio" name="audit" value="analysis"><span class="t">Web Analysis: speed, SEO, AEO/GEO, mobile, links, matching info, typos</span><span class="p">$799</span></label>
+      <label class="opt"><input type="radio" name="audit" value="both"><span class="t">Compliance Audit + Web Analysis</span><span class="p">$1,099</span></label>
+      <p class="note" style="margin-top:12px"><b>ADA accessibility + cookie consent banners</b></p>
+      <label class="opt" id="bnNone"><input type="radio" name="banner" value="none" checked><span class="t">No banners</span></label>
+      <label class="opt" id="bnSite"><input type="radio" name="banner" value="site"><span class="t">With a new WebSwan website ($49/mo; your $109 website plan becomes $158/mo: hosting, maintenance, security and banners)</span><span class="p">$299 + $49/mo</span></label>
+      <label class="opt" id="bnTested"><input type="radio" name="banner" value="tested"><span class="t">For your current website (Wix, GoDaddy, WordPress…) after a WebSwan audit</span><span class="p">$399 + $59/mo</span></label>
+      <label class="opt" id="bnStand"><input type="radio" name="banner" value="standalone"><span class="t">Standalone, for your current website</span><span class="p">$499 + $59/mo</span></label>
+      <div class="disc" style="margin-top:10px"><b>Your savings:</b> audit with us first and the banners drop from $499 to <b>$399</b>. Build your website with us and they're only <b>$299 + $49/mo</b>.</div>
+    </section>
+
+    <section class="sec">
+      <h2>📣 Doctor &amp; Attorney Advertising</h2><span class="by">WebSwan Media Network · webswanmedianetwork.com</span>
+      <label class="opt"><input type="radio" name="ad" value="none" checked><span class="t">No directory membership</span></label>
+      <label class="opt"><input type="radio" name="ad" value="found"><span class="t">Found membership (+ $289/yr network fee)</span><span class="p">$49/mo</span></label>
+      <label class="opt"><input type="radio" name="ad" value="leads"><span class="t">Found + Leads membership (+ $289/yr network fee)</span><span class="p">$69/mo</span></label>
+      <p class="note">Setup and onboarding $400, <b>automatically waived</b> when you choose a website, landing page or phone app above.</p>
+      <p class="note" style="margin-top:12px"><b>Rachel, 24/7 AI receptionist</b> (one-week free trial)</p>
+      <label class="opt"><input type="radio" name="rachel" value="none" checked><span class="t">No AI receptionist</span></label>
+      <label class="opt"><input type="radio" name="rachel" value="partial"><span class="t">Partial service</span><span class="p">$200 + $299/mo</span></label>
+      <label class="opt"><input type="radio" name="rachel" value="full"><span class="t">Full service</span><span class="p">$200 + $499/mo</span></label>
+    </section>
+
+    <section class="sec">
+      <h2>➕ Add-ons</h2><span class="by">The WebSwan</span>
+      <label class="opt"><input type="checkbox" id="hub"><span class="t">Interactive Brand Hub</span><span class="p">$699 + $39/mo</span></label>
+      <label class="opt"><input type="checkbox" id="video"><span class="t">Campaign Video ($799 with a website, $899 standalone)</span><span class="p">$799 / $899</span></label>
+      <label class="opt"><input type="checkbox" id="translator"><span class="t">Language Translator</span><span class="p">$150</span></label>
+      <label class="opt"><input type="checkbox" id="logo"><span class="t">Custom Logo</span><span class="p">$195</span></label>
+      <label class="opt"><input type="checkbox" id="qr"><span class="t">Custom QR Code</span><span class="p">$95</span></label>
+      <label class="opt"><input type="checkbox" id="rep"><span class="t">Reputation Management</span><span class="p">$109/mo</span></label>
+    </section>
+  </main>
+
+  <aside>
+    <div class="tot" aria-live="polite">
+      <h2>Your estimate</h2>
+      <div class="line"><span>Setup (one time)</span><span class="big" id="tSetup">$0</span></div>
+      <div class="line"><span>Monthly</span><b id="tMonth">$0/mo</b></div>
+      <div class="line" id="yrLine" hidden><span>Yearly</span><b id="tYear">$0/yr</b></div>
+      <ul class="items" id="tItems"><li>Nothing selected yet</li></ul>
+      <button class="btn b1" id="share" type="button"><i class="fa-solid fa-share-nodes"></i> Copy / share this estimate</button>
+      <a class="btn b2" id="sms" href="sms:4158770687"><i class="fa-solid fa-comment-dots"></i> Text it to WebSwan</a>
+      <button class="btn b3" id="reset" type="button"><i class="fa-solid fa-rotate-left"></i> Start over</button>
+      <p class="fine">Estimate only, before taxes. Final pricing is confirmed with Tania. Questions? Call (316) 248-6839.</p>
+    </div>
+  </aside>
+</div>
+<footer>© 2026 The WebSwan · Tania Domingue. All rights reserved. · <a href="https://www.thewebswan.com" target="_blank" rel="noopener">The WebSwan</a> · <a href="https://www.webswandigitalsolutions.com" target="_blank" rel="noopener">WebSwan Digital Solutions</a> · <a href="https://www.webswanmedianetwork.com" target="_blank" rel="noopener">WebSwan Media Network</a></footer>
+<div id="toast" role="status"></div>
+<!-- Tania's back office: white lock (7 clicks + code) -->
+<button type="button" class="lockbtn" id="lockBtn" aria-label="Admin"><i class="fa-solid fa-lock" aria-hidden="true"></i></button>
+<div id="adm" hidden role="dialog" aria-modal="true" aria-labelledby="admTitle">
+  <div class="adm-card">
+    <div class="adm-top"><h2 id="admTitle">👑 WebSwan Admin</h2><button type="button" class="adm-x" id="admClose" aria-label="Close admin">✕</button></div>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" data-tab="specials">🎯 Specials</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="timer">⏱️ Timer</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="settings">⚙️ Settings</button>
+    </div>
+    <div data-pane="specials">
+      <div class="box">
+        <h3>🔥 Promotions</h3>
+        <p class="sub">Turn a promotion ON to show it to visitors: the orange banner appears at the top and the promotion is added to the estimate. Edit the name, prices and note any time, then press <b>Publish</b>.</p>
+        <div id="signGate"><p>To change the live promotions, sign in with your Google account (one time on this device).</p><div class="arow"><button type="button" class="abtn blue" id="signIn">Sign in with Google</button></div></div>
+        <div id="promoEditor" hidden>
+          <div class="phead"><span>On</span><span>Promotion name</span><span>Setup $</span><span>Monthly $</span><span>Note (shown under the name)</span><span></span></div>
+          <div id="prows"></div>
+          <div class="arow"><button type="button" class="abtn" id="addPromo">➕ Add promotion</button><button type="button" class="abtn blue" id="publish">💾 Publish to the live page</button><button type="button" class="abtn" id="reloadPromos">↺ Reload</button></div>
+        </div>
+        <p class="amsg" id="pMsg" role="status"></p>
+      </div>
+    </div>
+    <div data-pane="timer" hidden>
+      <div class="box">
+        <h3>✨ Special price (this screen only)</h3>
+        <p class="sub">For when you're with a client: replaces the setup total on this screen for 5 minutes, or until you clear it. Visitors never see it.</p>
+        <div class="arow"><label for="spIn"><b>Special price ($):</b> <small>(Format: 0XXXX, min 0500)</small></label>
+          <input class="inp" type="text" inputmode="numeric" id="spIn" placeholder="e.g. 01000" maxlength="6" style="width:180px">
+          <button type="button" class="abtn" id="spApply">Apply Special</button><button type="button" class="abtn red" id="spClear">🗑️ Clear</button></div>
+        <div class="timerbox"><div><div id="spStatus">⚡ Enter a special price to begin</div><div class="tdisp" id="spTime">Ready</div></div><button type="button" class="abtn" id="spAccept" disabled>Accept Special</button></div>
+      </div>
+    </div>
+    <div data-pane="settings" hidden>
+      <div class="box">
+        <h3>⚙️ Settings</h3>
+        <p class="sub">The lock opens with 7 quick clicks and your code. Publishing promotions also needs your Google sign-in, so nobody else can change your prices.</p>
+        <p id="who">Not signed in.</p>
+        <div class="arow"><button type="button" class="abtn red" id="signOut" hidden>Sign out of Google on this device</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+const $ = id => document.getElementById(id);
+const CODE = '333777';
+const API = 'https://webswan-billing.netlify.app/.netlify/functions/estimate-promos';
+const DEFAULTS = [
+  { id: 'pwa-standalone', on: false, name: 'Standalone PWA Promo', setup: 1599, monthly: 109, note: '' },
+  { id: 'premium-package', on: false, name: 'Premium Package Promo', setup: 2499, monthly: 109, note: 'Special from $3,500' }
+];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+let promos = [], auth = null, fb = null;
+
+// ---- lock: 7 clicks (within 2 seconds of each other), then the code ----
+let clicks = 0, reset = null;
+$('lockBtn').addEventListener('click', () => {
+  clicks++; clearTimeout(reset); reset = setTimeout(() => clicks = 0, 2000);
+  if (clicks >= 7) { clicks = 0; const p = prompt('Enter admin password:'); if (p === null) return; if (p === CODE) openAdm(); else alert('Wrong password'); }
+});
+function openAdm() { $('adm').hidden = false; document.body.style.overflow = 'hidden'; $('admClose').focus(); startAuth().catch(() => { $('pMsg').textContent = '⚠️ Google sign-in could not load. Check your internet connection and try again.'; auth = null; }); }
+function closeAdm() { $('adm').hidden = true; document.body.style.overflow = ''; $('lockBtn').focus(); }
+$('admClose').onclick = closeAdm;
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('adm').hidden) closeAdm(); });
+document.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-tab]').forEach(x => x.setAttribute('aria-selected', x === b));
+  document.querySelectorAll('[data-pane]').forEach(p => p.hidden = p.dataset.pane !== b.dataset.tab);
+});
+
+// ---- Google sign-in (same account as your other WebSwan back offices) ----
+async function startAuth() {
+  if (auth) return;
+  fb = await Promise.all([import('https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js'), import('https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js')]);
+  auth = fb[1].getAuth(fb[0].initializeApp({ apiKey: "AIzaSyBxuPZnF8rSZPkmoeqNR_9PQtFUJNKU3JM", authDomain: "webswan-gigoia-task.firebaseapp.com", projectId: "webswan-gigoia-task", appId: "1:970866236717:web:63ddb5c2557d083b8bc7a4" }));
+  fb[1].onAuthStateChanged(auth, u => {
+    $('signGate').hidden = !!u; $('promoEditor').hidden = !u; $('signOut').hidden = !u;
+    $('who').textContent = u ? 'Signed in as ' + u.email : 'Not signed in.';
+    if (u) loadPromos();
+  });
+}
+$('signIn').onclick = async () => { await startAuth(); fb[1].signInWithPopup(auth, new fb[1].GoogleAuthProvider()).catch(e => { $('pMsg').textContent = '❌ ' + e.message; }); };
+$('signOut').onclick = () => fb && fb[1].signOut(auth);
+async function api(body) {
+  const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + await auth.currentUser.getIdToken() }, body: JSON.stringify(body) });
+  const d = await r.json().catch(() => ({})); if (!r.ok) throw new Error(d.error || 'Error ' + r.status); return d;
+}
+async function loadPromos() {
+  $('pMsg').textContent = 'Loading…';
+  try { const d = await api({ action: 'get' }); promos = Array.isArray(d.promos) && d.promos.length ? d.promos : DEFAULTS.map(p => ({ ...p })); $('pMsg').textContent = ''; }
+  catch (e) { promos = DEFAULTS.map(p => ({ ...p })); $('pMsg').textContent = '⚠️ ' + e.message; }
+  render();
+}
+function render() {
+  $('prows').innerHTML = promos.map((p, i) => `<div class="prow">
+    <label class="sw" title="Show this promotion to visitors"><input type="checkbox" data-i="${i}" data-k="on" ${p.on ? 'checked' : ''} aria-label="${esc(p.name)} on or off"><span></span></label>
+    <input class="pn" type="text" data-i="${i}" data-k="name" value="${esc(p.name)}" aria-label="Promotion name" placeholder="e.g. Holiday Website Special">
+    <input type="number" min="0" step="1" data-i="${i}" data-k="setup" value="${p.setup}" aria-label="Setup price in dollars">
+    <input type="number" min="0" step="1" data-i="${i}" data-k="monthly" value="${p.monthly}" aria-label="Monthly price in dollars">
+    <input class="pnote" type="text" data-i="${i}" data-k="note" value="${esc(p.note)}" aria-label="Note" placeholder="e.g. Special from $3,500 · ends Dec 31">
+    <button type="button" class="del" data-del="${i}" aria-label="Delete ${esc(p.name)}">🗑</button></div>`).join('') || '<p class="sub">No promotions yet. Add one.</p>';
+  $('addPromo').disabled = promos.length >= 12;
+}
+$('prows').addEventListener('input', e => { const t = e.target, i = t.dataset.i; if (i === undefined) return; promos[+i][t.dataset.k] = t.type === 'checkbox' ? t.checked : t.type === 'number' ? Math.max(0, Math.round(+t.value || 0)) : t.value; $('pMsg').textContent = 'Not published yet: press 💾 Publish.'; });
+$('prows').addEventListener('click', e => { const d = e.target.closest('[data-del]'); if (!d) return; const p = promos[+d.dataset.del]; if (confirm('Delete "' + p.name + '"?')) { promos.splice(+d.dataset.del, 1); render(); $('pMsg').textContent = 'Not published yet: press 💾 Publish.'; } });
+$('addPromo').onclick = () => { promos.push({ id: Math.random().toString(36).slice(2, 10), on: true, name: 'Holiday Special', setup: 0, monthly: 0, note: '' }); render(); $('prows').lastElementChild.querySelector('.pn').select(); };
+$('reloadPromos').onclick = loadPromos;
+$('publish').onclick = async () => {
+  $('pMsg').textContent = 'Publishing…';
+  try { const d = await api({ action: 'set', promos }); promos = d.promos; render(); window.__wsShowPromos && window.__wsShowPromos(promos);
+    const n = promos.filter(p => p.on).length; $('pMsg').textContent = '✅ Published. ' + (n ? n + ' promotion(s) ON: visitors see the orange banner (within about a minute).' : 'All promotions are OFF: the banner is hidden.'); }
+  catch (e) { $('pMsg').textContent = '❌ ' + e.message; }
+};
+
+// ---- special price with 5-minute timer (this screen only) ----
+const SP = window.__wsSpecial = { active: false, amount: 0, left: 300, t: null };
+function spUI() {
+  $('spTime').textContent = SP.active ? (SP.t ? Math.floor(SP.left / 60) + ':' + String(SP.left % 60).padStart(2, '0') : 'No time limit') : '00:00';
+  $('spAccept').disabled = !SP.active || !SP.t;
+  $('spStatus').textContent = SP.active ? '✨ Special active: $' + SP.amount.toLocaleString('en-US') : '⚡ Enter a special price to begin';
+  window.__wsCalc && window.__wsCalc();
+}
+$('spApply').onclick = () => {
+  const raw = $('spIn').value.trim();
+  if (!/^0\d{3,5}$/.test(raw)) { alert('❌ Invalid format. Special price must start with "0" (e.g., 01000 for $1000)'); return; }
+  const amt = parseInt(raw, 10); if (amt < 500) { alert('❌ Invalid amount. Minimum special price is $500 (format: 0500)'); return; }
+  clearInterval(SP.t); Object.assign(SP, { active: true, amount: amt, left: 300 });
+  SP.t = setInterval(() => { if (--SP.left <= 0) { clearInterval(SP.t); SP.t = null; SP.active = false; } spUI(); }, 1000);
+  spUI(); alert('✨ Special price of $' + amt + ' activated for 5 minutes!');
+};
+$('spAccept').onclick = () => { if (!SP.active) return; clearInterval(SP.t); SP.t = null; spUI(); alert('Special accepted — no time limit.'); };
+$('spClear').onclick = () => { clearInterval(SP.t); Object.assign(SP, { active: false, amount: 0, left: 300, t: null }); $('spIn').value = ''; spUI(); alert('Special cleared.'); };
+</script>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const form = $('form');
+  const val = n => (form.querySelector(`input[name="${n}"]:checked`) || {}).value || 'none';
+  const chk = id => $(id).checked;
+  const money = n => '$' + Number(n).toLocaleString('en-US');
+  const WEB = { startup: ['Standard Custom Web Design', 1997, 109], premium: ['Premium Package', 3998, 109], landing: ['Landing Page', 799, 109], ecommerce: ['E-Commerce Website', 1399, 109] };
+  const APP = { basic: ['Standard Phone App', 899, 69], plus: ['Standard Phone App Plus', 1299, 89] };
+  const AUD = { audit: ['Website Compliance Audit', 399], analysis: ['Web Analysis', 799], both: ['Compliance Audit + Web Analysis', 1099] };
+  function calc() {
+    let setup = 0, month = 0, year = 0; const items = [];
+    const add = (name, s, m, y) => { setup += s || 0; month += m || 0; year += y || 0; items.push(name + ': ' + [s ? money(s) : '', m ? money(m) + '/mo' : '', y ? money(y) + '/yr' : ''].filter(Boolean).join(' + ')); };
+    const web = val('web'), app = val('app');
+    const mg = web === 'managed';
+    $('mgAdd').hidden = !mg;
+    if (mg) {
+      add('Managed Website Program (ADA + cookie banners included)', 899, 499);
+      if (chk('mAI')) add('AI-powered upgrade', 300);
+      if (chk('mOpt')) add('Optimization upgrade (schema, AEO/GEO, topical SEO, SEO)', 299);
+      items.push('12-month agreement · up to 60 min of edits a month (extra $100/hr)');
+      items.push('After 12 months: $299/mo hosting and maintenance');
+    }
+    if (WEB[web]) add(...WEB[web]);
+    if (web === 'ecommerce' && +$('items').value) add($('items').value + ' extra items', 75 * $('items').value);
+    if (+$('links').value) add($('links').value + ' additional link(s)', 300 * $('links').value);
+    if (+$('seo').value) add($('seo').value + ' SEO page(s)', 350 * $('seo').value);
+    if (APP[app]) add(...APP[app]);
+    if (AUD[val('audit')]) add(...AUD[val('audit')]);
+    // banners: the "with website" price only applies with a website package
+    const hasSite = web !== 'none';
+    $('bnSite').classList.toggle('dim', !hasSite); $('bnSite').querySelector('input').disabled = !hasSite;
+    ['bnTested', 'bnStand'].forEach(id => { $(id).classList.toggle('dim', hasSite); $(id).querySelector('input').disabled = hasSite; });
+    if (mg) { ['bnSite', 'bnTested', 'bnStand'].forEach(id => { $(id).classList.add('dim'); $(id).querySelector('input').disabled = true; }); form.querySelector('input[name="banner"][value="none"]').checked = true; }
+    let banner = val('banner');
+    if (hasSite && (banner === 'tested' || banner === 'standalone')) { form.querySelector('input[name="banner"][value="site"]').checked = true; banner = 'site'; }
+    if ((!hasSite || mg) && banner === 'site') { form.querySelector('input[name="banner"][value="none"]').checked = true; banner = 'none'; }
+    if (banner === 'site') add('ADA + Cookie Banners (with your WebSwan website)', 299, 49);
+    if (banner === 'tested') add('ADA + Cookie Banners (after WebSwan audit)', 399, 59);
+    if (banner === 'standalone') add('ADA + Cookie Banners (standalone)', 499, 59);
+    const ad = val('ad');
+    if (ad !== 'none') { add(ad === 'leads' ? 'Found + Leads membership' : 'Found membership', 0, ad === 'leads' ? 69 : 49, 289); if (!(hasSite || app !== 'none')) add('Media Network setup', 400); else items.push('Media Network setup: waived'); }
+    const r = val('rachel'); if (r !== 'none') add('Rachel AI Receptionist (' + r + ' service)', 200, r === 'full' ? 499 : 299);
+    if (chk('hub')) add('Interactive Brand Hub', 699, 39);
+    if (chk('video')) add('Campaign Video', hasSite ? 799 : 899);
+    if (chk('translator')) add('Language Translator', 150);
+    if (chk('logo')) add('Custom Logo', 195);
+    if (chk('qr')) add('Custom QR Code', 95);
+    if (chk('rep')) add('Reputation Management', 0, 109);
+    PROMOS.forEach(p => { const el = $('pr_' + p.id); if (el && el.checked) add('🔥 ' + p.name + ' (promotion)', p.setup, p.monthly); });
+    const sp = window.__wsSpecial;
+    if (sp && sp.active && sp.amount > 0) { items.push('✨ Special price: ' + money(sp.amount) + ' setup'); setup = sp.amount; }
+    $('tSetup').textContent = money(setup); $('tMonth').textContent = money(month) + '/mo';
+    $('tYear').textContent = money(year) + '/yr'; $('yrLine').hidden = !year;
+    $('tItems').innerHTML = items.length ? items.map(i => '<li>' + i.replace(/[<>&]/g, '') + '</li>').join('') : '<li>Nothing selected yet</li>';
+    const text = summary(setup, month, year, items);
+    $('sms').href = 'sms:4158770687' + (/iPhone|iPad|Mac/i.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(text);
+    try { history.replaceState(null, '', '?' + state()); } catch (e) {}
+    return text;
+  }
+  function summary(setup, month, year, items) { return 'My WebSwan estimate\n' + items.map(i => '• ' + i).join('\n') + '\n\nSetup: ' + money(setup) + '\nMonthly: ' + money(month) + '/mo' + (year ? '\nYearly: ' + money(year) + '/yr' : '') + '\n\nView or change it: ' + location.href.split('?')[0] + '?' + state(); }
+  function state() {
+    const p = new URLSearchParams();
+    ['web', 'app', 'audit', 'banner', 'ad', 'rachel'].forEach(n => { if (val(n) !== 'none') p.set(n, val(n)); });
+    ['items', 'links', 'seo'].forEach(id => { if (+$(id).value) p.set(id, $(id).value); });
+    ['hub', 'video', 'translator', 'logo', 'qr', 'rep', 'mAI', 'mOpt'].forEach(id => { if (chk(id)) p.set(id, '1'); });
+    const pr = PROMOS.filter(x => { const el = $('pr_' + x.id); return el && el.checked; }).map(x => x.id); if (pr.length) p.set('promo', pr.join(','));
+    return p.toString();
+  }
+  function load() {
+    const p = new URLSearchParams(location.search);
+    ['web', 'app', 'audit', 'ad', 'rachel', 'banner'].forEach(n => { const v = p.get(n); const el = v && form.querySelector(`input[name="${n}"][value="${CSS.escape(v)}"]`); if (el) el.checked = true; });
+    ['items', 'links', 'seo'].forEach(id => { const v = p.get(id); if (v && [...$(id).options].some(o => o.value === v)) $(id).value = v; });
+    ['hub', 'video', 'translator', 'logo', 'qr', 'rep', 'mAI', 'mOpt'].forEach(id => { if (p.get(id) === '1') $(id).checked = true; });
+  }
+  function toast(m) { const t = $('toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(t._h); t._h = setTimeout(() => t.style.display = 'none', 2600); }
+  form.addEventListener('change', calc);
+  $('share').addEventListener('click', async () => {
+    const text = calc(); const url = location.href;
+    if (navigator.share && /Android|iPhone|iPad/i.test(navigator.userAgent)) { try { await navigator.share({ title: 'My WebSwan estimate', text: text }); return; } catch (e) {} }
+    try { await navigator.clipboard.writeText(text); toast('Estimate and link copied. Paste it anywhere.'); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast('Estimate and link copied.'); } catch (e2) { prompt('Copy this link:', url); } ta.remove(); }
+  });
+  $('reset').addEventListener('click', () => { form.querySelectorAll('input[type=radio][value=none]').forEach(i => i.checked = true); form.querySelectorAll('input[type=checkbox]').forEach(i => i.checked = false); ['items', 'links', 'seo'].forEach(id => $(id).value = '0'); calc(); });
+  // ---------- Promotions (Tania turns them on in the back office) ----------
+  const PROMO_API = 'https://webswan-billing.netlify.app/.netlify/functions/estimate-promos';
+  let PROMOS = [];
+  const INIT_PROMO = new Set(((new URLSearchParams(location.search)).get('promo') || '').split(','));  // read before calc() rewrites the address
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  function priceText(p) { return [p.setup ? money(p.setup) : '', p.monthly ? money(p.monthly) + '/mo' : ''].filter(Boolean).join(' + ') || 'Free'; }
+  const PROMOS_PREV = () => PROMOS.filter(x => { const el = $('pr_' + x.id); return el && el.checked; }).map(x => x.id);
+  function showPromos(list) {
+    PROMOS = (list || []).filter(p => p && p.on !== false);
+    const keep = new Set([...INIT_PROMO, ...PROMOS_PREV()]);
+    $('promoList').innerHTML = PROMOS.map(p => `<label class="opt"><input type="checkbox" id="pr_${esc(p.id)}" ${keep.has(p.id) ? 'checked' : ''}><span class="t"><b>🔥 ${esc(p.name)}</b>${p.note ? '<br><small>' + esc(p.note) + '</small>' : ''}</span><span class="p">${priceText(p)}</span></label>`).join('');
+    $('promoSec').hidden = !PROMOS.length;
+    const b = $('promoBanner'); b.hidden = !PROMOS.length;
+    if (PROMOS.length) $('pbText').textContent = PROMOS.length === 1 ? '🔥 ' + PROMOS[0].name + '! Tap to view the promotion' : PROMOS.length + ' special promotions are here! Tap to view them';
+    calc();
+  }
+  $('promoBanner').addEventListener('click', () => { const s = $('promoSec'); s.scrollIntoView({ behavior: 'smooth', block: 'start' }); s.classList.remove('flash'); void s.offsetWidth; s.classList.add('flash'); const f = s.querySelector('input'); if (f) setTimeout(() => f.focus({ preventScroll: true }), 600); });
+  window.__wsCalc = calc; window.__wsShowPromos = showPromos;
+  load(); calc();
+  fetch(PROMO_API, { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(d => { if (d && Array.isArray(d.promos)) showPromos(d.promos); }).catch(() => {});
+})();
+</script>
+</body>
+</html>
